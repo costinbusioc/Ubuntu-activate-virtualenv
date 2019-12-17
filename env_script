@@ -1,0 +1,22 @@
+alias python='python3'
+
+export ENV_PATHS=.venv/bin/activate:venv/bin/activate:env/bin/activate:../.venv/bin/activate:../venv/bin/activate:./bin/activate:.envrc
+
+activate() {
+  for pos_file in $(echo $ENV_PATHS | tr ":" "\n")
+  do
+    if [ -f "$pos_file" ]
+    then
+      source "$pos_file"
+      break
+    fi
+  done
+}
+
+cd() {
+  builtin cd "$@" || exit 1
+  activate
+}
+
+activate
+
